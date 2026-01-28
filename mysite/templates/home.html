@@ -10,7 +10,14 @@
 <body>
     <h1>Students List</h1>
 
+ {% if user.is_authenticated %}
+ <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">logout-> {{user.username}}</button>
 
+ </form>
+ 
+ {% endif %}
     <table border="1">
         <thead>
             <tr>
