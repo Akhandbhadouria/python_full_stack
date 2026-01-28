@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV=/Users/lambardaar/Desktop/python_full_stack/djenv
+VIRTUAL_ENV=/Users/lambardaar/Downloads/python_full_stack/djenv
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

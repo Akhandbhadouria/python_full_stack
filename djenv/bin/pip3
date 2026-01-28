@@ -1,4 +1,4 @@
-#!/Users/lambardaar/Desktop/python_full_stack/djenv/bin/python3.11
+#!/Users/lambardaar/Downloads/python_full_stack/djenv/bin/python3.11
 import sys
 from pip._internal.cli.main import main
 if __name__ == '__main__':

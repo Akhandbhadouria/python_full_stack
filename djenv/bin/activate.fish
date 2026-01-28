@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /Users/lambardaar/Desktop/python_full_stack/djenv
+set -gx VIRTUAL_ENV /Users/lambardaar/Downloads/python_full_stack/djenv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
