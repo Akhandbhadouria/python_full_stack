@@ -3,9 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student Details</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 380px;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #667eea;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .info {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .info p {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .info span {
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
 </head>
+
 <body>
-    {{sd.name}}
+
+    <div class="card">
+        <img src="{{ sd.img.url }}" alt="Student Image">
+
+        <h2>{{ sd.name }}</h2>
+
+        <div class="info">
+            <p><span>Email:</span> {{ sd.email }}</p>
+            <p><span>Phone:</span> {{ sd.phone }}</p>
+            <p><span>Registration No:</span> {{ sd.reg }}</p>
+        </div>
+    </div>
+
 </body>
 </html>

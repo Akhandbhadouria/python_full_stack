@@ -4,40 +4,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student Management System</title>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(to right, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1e293b;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            background: #334155;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background: #334155;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Students List</h1>
+    <div class="container">
+        <header>
+            <h1>Students Directory</h1>
+            <div class="user-nav">
+                {% if user.is_authenticated %}
+                <span>Hello, <strong>{{user.username}}</strong></span>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                {% endif %}
+            </div>
+        </header>
 
- {% if user.is_authenticated %}
- <form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">logout-> {{user.username}}</button>
+        <div style="margin-bottom: 1.5rem;">
+            <a href="{% url 'data_input' %}" class="btn btn-primary">+ Add New Student</a>
+        </div>
 
- </form>
- 
- {% endif %}
-    <table border="1">
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>number</th>
-                <th>reg</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%for t in stud%}
-            <tr>
-                <th>{{t.id}}</th>
-                <th><a href="{% url 'st_detail' t.id %}">{{t.name}}</a></th>
-                <th>{{t.phone}}</th>
-                <th>{{t.reg}}</th>
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Reg No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in stud %}
+                <tr>
+                    <td>{{ t.id }}</td>
+                    <td><a href="{% url 'st_detail' t.id %}">{{ t.name }}</a></td>
+                    <td>{{ t.email }}</td>
+                    <td>{{ t.phone }}</td>
+                    <td>{{ t.reg }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 2rem; color: #64748b;">No students found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
