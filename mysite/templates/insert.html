@@ -4,98 +4,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product - Modern Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Add Product - E-Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary: #4f46e5;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --primary-orange: #ff6b35;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-light: #e9ecef;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 600px;
+        /* Header */
+        header {
+            background: var(--bg-white);
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo::before {
+            content: '';
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2d3436 0%, var(--primary-orange) 100%);
+            border-radius: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .icon-btn:hover {
+            background: var(--bg-light);
+        }
+
+        .icon-btn {
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--primary-orange);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid var(--bg-white);
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Form Container */
+        .main-container {
+            max-width: 650px;
             margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: var(--bg-white);
+            border-radius: 20px;
             padding: 3rem;
-            background: var(--card-bg);
-            border-radius: 2rem;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-md);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             font-size: 2.25rem;
             font-weight: 800;
-            background: linear-gradient(to right, #4f46e5, #9333ea);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-dark);
         }
 
         form p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
             display: flex;
             flex-direction: column;
         }
 
         form label {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             font-weight: 600;
-            color: #374151;
+            color: var(--text-dark);
             font-size: 0.95rem;
         }
 
         form input,
         form textarea,
         form select {
-            padding: 0.8rem 1rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border);
-            background: #fdfdfd;
-            color: #111827;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            border: 1.5px solid var(--border-light);
+            background: var(--bg-light);
+            color: var(--text-dark);
             font-size: 1rem;
             transition: all 0.2s;
+            width: 100%;
         }
 
-        form input:focus {
+        form input:focus,
+        form textarea:focus,
+        form select:focus {
             outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            border-color: var(--primary-orange);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
         }
 
         .btn-submit {
             width: 100%;
             padding: 1.1rem;
-            background: var(--primary);
+            background: var(--primary-orange);
             color: white;
             border: none;
-            border-radius: 1rem;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             margin-top: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
         }
 
         .btn-submit:hover {
-            background: #4338ca;
+            background: #ff5722;
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
         }
 
         .back-link {
@@ -106,24 +188,111 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
+            transition: color 0.2s;
         }
 
         .back-link:hover {
-            color: var(--primary);
+            color: var(--text-dark);
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Add New Product</h1>
-        <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn-submit">List Product</button>
-        </form>
-        <a href="{% url 'home' %}" class="back-link">← Back to Dashboard</a>
+    <header>
+        <a href="{% url 'home' %}" class="logo">E-SHOP</a>
+        <div class="header-actions">
+            {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}" class="icon-btn" title="Admin Dashboard">📊</a>
+            {% endif %}
+            <a href="{% url 'order_list' %}" class="icon-btn" title="My Orders">🛍️</a>
+            <a href="{% url 'data_input' %}" class="icon-btn" title="Add Product">➕</a>
+            <a href="{% url 'cart_view' %}" class="icon-btn" title="My Cart">
+                🛒
+                {% if cart_count > 0 %}
+                <span class="badge">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+            {% if user.is_authenticated %}
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="color: var(--text-muted); font-weight: 500;">{{user.username}}</span>
+                <div
+                    style="width: 35px; height: 35px; border-radius: 50%; background: #ffeaa7; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                    👤</div>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="card">
+            <h1>Add New Product</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="id_name">Product Name</label>
+                    <input type="text" name="name" id="id_name" placeholder="Enter product name" required>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="id_category">Category</label>
+                    <select name="category" id="id_category">
+                        {% for cat in form.fields.category.queryset %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="id_price">Price ($)</label>
+                    <input type="number" name="price" id="id_price" step="0.01" placeholder="0.00" required>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="id_stock">Initial Stock</label>
+                    <input type="number" name="stock" id="id_stock" placeholder="0" required>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="id_description">Description</label>
+                    <textarea name="description" id="id_description" rows="4"
+                        placeholder="Describe the product..."></textarea>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <label for="id_image">Product Image</label>
+                    <div class="file-upload-wrapper"
+                        style="border: 2px dashed var(--border-light); padding: 2rem; border-radius: 12px; text-align: center; background: var(--bg-light); cursor: pointer;">
+                        <input type="file" name="image" id="id_image" accept="image/*" style="display: none;">
+                        <div id="file-label" style="color: var(--text-muted);">
+                            <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📸</span>
+                            <span>Click to upload or drag and drop</span>
+                            <p style="font-size: 0.8rem; margin-top: 0.5rem;">PNG, JPG, JPEG up to 5MB</p>
+                        </div>
+                    </div>
+                    <script>
+                        const fileInput = document.getElementById('id_image');
+                        const fileWrapper = document.querySelector('.file-upload-wrapper');
+                        const fileLabel = document.getElementById('file-label');
+
+                        fileWrapper.addEventListener('click', () => fileInput.click());
+
+                        fileInput.addEventListener('change', () => {
+                            if (fileInput.files.length > 0) {
+                                fileLabel.innerHTML = `<span style="color: var(--primary-orange); font-weight: 600;">Selected: ${fileInput.files[0].name}</span>`;
+                                fileWrapper.style.borderColor = 'var(--primary-orange)';
+                                fileWrapper.style.background = '#fff';
+                            }
+                        });
+                    </script>
+                </div>
+
+                <button type="submit" class="btn-submit">List Product</button>
+            </form>
+            <a href="{% url 'home' %}" class="back-link">← Back to Dashboard</a>
+        </div>
     </div>
+
 </body>
 
 </html>

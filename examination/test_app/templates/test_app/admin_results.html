@@ -1,0 +1,43 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Student Performance{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="{% url 'admin_dashboard' %}" style="text-decoration: none; color: var(--text-light);">&larr; Back to
+        Dashboard</a>
+    <h1 style="margin-top: 1rem;">Student Marksheet</h1>
+    <p style="color: var(--text-light);">Complete list of all examinations performed by students.</p>
+</div>
+
+{% if results %}
+<div class="card" style="padding: 0; overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="background: #f1f5f9; color: var(--text-light); border-bottom: 1px solid #e2e8f0;">
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Student Name</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Question Paper</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Marks Obtained</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Completion Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in results %}
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 1.25rem 2rem; font-weight: 600;">{{ res.student.username }}</td>
+                <td style="padding: 1.25rem 2rem;">{{ res.paper.title|default:"Deleted Paper" }}</td>
+                <td style="padding: 1.25rem 2rem; font-weight: 600; color: var(--primary);">{{ res.marks }} / {{
+                    res.total_marks }}</td>
+                <td style="padding: 1.25rem 2rem; color: var(--text-light);">{{ res.date|date:"F j, Y, g:i a" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 4rem 2rem;">
+    <p style="color: var(--text-light); font-size: 1.1rem;">No records found yet. Students need to complete tests first.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

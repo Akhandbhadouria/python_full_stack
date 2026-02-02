@@ -1,0 +1,56 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Manage Paper: {{ paper.title }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 3rem;">
+    <a href="{% url 'admin_dashboard' %}" style="text-decoration: none; color: var(--text-light);">&larr; Back to
+        Dashboard</a>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 1rem;">
+        <div>
+            <h1 style="margin: 0;">{{ paper.title }}</h1>
+            <p style="color: var(--text-light); margin: 0.5rem 0 0;">{{ paper.description }}</p>
+        </div>
+        <a href="{% url 'add_question' paper.id %}" class="btn btn-primary">+ Add Question to Paper</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 2rem; display: flex; justify-content: space-between;">
+        Questions in this Paper
+        <span style="font-size: 0.9rem; color: var(--text-light);">{{ questions.count }} Items</span>
+    </h3>
+
+    {% if questions %}
+    {% for q in questions %}
+    <div
+        style="padding: 1.5rem; border: 1px solid #f1f5f9; border-radius: 0.75rem; margin-bottom: 1.5rem; position: relative;">
+        <div
+            style="position: absolute; right: 1.5rem; top: 1.5rem; background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600;">
+            {{ q.marks }} Marks
+        </div>
+        <h4 style="margin: 0 0 1rem; padding-right: 5rem;">{{ forloop.counter }}. {{ q.question_text }}</h4>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+            <div
+                style="font-size: 0.9rem; color: {% if q.answer == q.option1 %}var(--accent){% else %}var(--text-light){% endif %}; font-weight: {% if q.answer == q.option1 %}600{% else %}400{% endif %};">
+                A) {{ q.option1 }}</div>
+            <div
+                style="font-size: 0.9rem; color: {% if q.answer == q.option2 %}var(--accent){% else %}var(--text-light){% endif %}; font-weight: {% if q.answer == q.option2 %}600{% else %}400{% endif %};">
+                B) {{ q.option2 }}</div>
+            <div
+                style="font-size: 0.9rem; color: {% if q.answer == q.option3 %}var(--accent){% else %}var(--text-light){% endif %}; font-weight: {% if q.answer == q.option3 %}600{% else %}400{% endif %};">
+                C) {{ q.option3 }}</div>
+            <div
+                style="font-size: 0.9rem; color: {% if q.answer == q.option4 %}var(--accent){% else %}var(--text-light){% endif %}; font-weight: {% if q.answer == q.option4 %}600{% else %}400{% endif %};">
+                D) {{ q.option4 }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div style="text-align: center; padding: 4rem 2rem;">
+        <p style="color: var(--text-light); margin-bottom: 1.5rem;">This paper doesn't have any questions yet.</p>
+        <a href="{% url 'add_question' paper.id %}" class="btn btn-outline">Add the First Question</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

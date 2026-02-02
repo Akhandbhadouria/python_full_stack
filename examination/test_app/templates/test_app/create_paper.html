@@ -1,0 +1,33 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Create Question Paper{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'admin_dashboard' %}" style="text-decoration: none; color: var(--text-light);">&larr; Back to
+            Dashboard</a>
+        <h1 style="margin-top: 1rem;">New Question Paper</h1>
+    </div>
+
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Paper Title</label>
+                <input type="text" name="title" placeholder="e.g. Midterm Examination 2026" required>
+            </div>
+            <div class="form-group">
+                <label>Description (Optional)</label>
+                <textarea name="description" rows="4"
+                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-family: inherit;"></textarea>
+            </div>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 2;">Create Paper</button>
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-outline"
+                    style="flex: 1; text-align: center;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

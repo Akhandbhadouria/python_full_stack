@@ -1,20 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title|default:"Register" }} - E-Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .register-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 800;
+      color: #2d3436;
+    }
+
+    form p {
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #ff6b35;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: #ff5722;
+    }
+
+    .links {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    a {
+      color: #636e72;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    a:hover {
+      color: #ff6b35;
+    }
+
+    .error {
+      color: #d63031;
+      background: #fff0f0;
+      padding: 0.75rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
+
 <body>
-    <h2>Register</h2>
+  <div class="register-card">
+    <h2>{{ title|default:"Register" }}</h2>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
+    {% if error %}
+    <div class="error">⚠️ {{ error }}</div>
+    {% endif %}
 
-<a href="{% url 'login' %}">Already have an account?</a>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">{{ title|default:"Register" }}</button>
+    </form>
 
+    <div class="links">
+      <a href="{% url 'login' %}">Already have an account? Login</a>
+      {% if not title %}
+      <hr style="border: none; border-top: 1px solid #eee; margin: 10px 0;">
+      <a href="{% url 'admin_register' %}" style="font-weight: 600; color: #2d3436;">Are you an Admin? Register here</a>
+      {% endif %}
+    </div>
+  </div>
 </body>
+
 </html>

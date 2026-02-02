@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Sum, Count, F
 from .forms import ProductForm
 from .models import Product, CartItem, Category, Order, OrderItem
 
@@ -16,16 +17,21 @@ def home(request):
             Category.objects.create(name="Home & Living", description="Furniture and decor"),
         ]
         # Add some sample products
-        Product.objects.get_or_create(name="Smart Watch", price=199.99, category=categories[0], stock=10, description="A premium smartwatch")
-        Product.objects.get_or_create(name="Wireless Headphones", price=149.99, category=categories[0], stock=15, description="Noise cancelling headphones")
-        Product.objects.get_or_create(name="Designer Hoodie", price=59.99, category=categories[1], stock=20, description="Ultra-comfortable hoodie")
-        Product.objects.get_or_create(name="Coffee Table", price=89.99, category=categories[2], stock=5, description="Modern wooden coffee table")
+        Product.objects.get_or_create(name="Smart Watch", price=199.99, category=categories[0], stock=10, description="A premium smartwatch", image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500")
+        Product.objects.get_or_create(name="Wireless Headphones", price=149.99, category=categories[0], stock=15, description="Noise cancelling headphones", image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500")
+        Product.objects.get_or_create(name="Designer Hoodie", price=59.99, category=categories[1], stock=20, description="Ultra-comfortable hoodie", image="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500")
+        Product.objects.get_or_create(name="Coffee Table", price=89.99, category=categories[2], stock=5, description="Modern wooden coffee table", image="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=500")
         categories = Category.objects.all()
 
+    query = request.GET.get('q')
+    
+    products = Product.objects.all()
+
     if category_id:
-        products = Product.objects.filter(category_id=category_id)
-    else:
-        products = Product.objects.all()
+        products = products.filter(category_id=category_id)
+    
+    if query:
+        products = products.filter(name__icontains=query)
         
     return render(request, 'home.html', {
         'products': products, 
@@ -63,7 +69,9 @@ def data_input(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save(commit=False)
+            product.added_by = request.user
+            product.save()
             return redirect('home')
     else:
         form = ProductForm()
@@ -104,4 +112,69 @@ def place_order(request):
 def order_list(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'orders.html', {'orders': orders})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_dashboard(request):
+    # Filter products by the current admin
+    my_products = Product.objects.filter(added_by=request.user)
+    
+    total_products = my_products.count()
+    out_of_stock = my_products.filter(stock__lte=0).count()
+    
+    # Get OrderItems for my products
+    my_order_items = OrderItem.objects.filter(product__in=my_products)
+    
+    # Calculate revenue specifically from my products
+    total_revenue = my_order_items.aggregate(
+        rev=Sum(F('price_at_order') * F('quantity'))
+    )['rev'] or 0
+    
+    # Get unique orders that contain my products
+    my_orders = Order.objects.filter(items__product__in=my_products).distinct()
+    total_orders = my_orders.count()
+    
+    recent_orders = my_orders.order_by('-created_at')[:10]
+    low_stock_products = my_products.filter(stock__lt=10).order_by('stock')[:5]
+    
+    # Product statistics (number of users per product)
+    product_stats = my_products.annotate(
+        user_count=Count('orderitem__order__user', distinct=True),
+        sales_count=Sum('orderitem__quantity')
+    ).order_by('-user_count')
+    
+    # Customer tracking (users who bought my products)
+    customer_purchases = my_order_items.select_related('order', 'order__user').order_by('-order__created_at')[:20]
+    
+    context = {
+        'total_orders': total_orders,
+        'total_revenue': total_revenue,
+        'total_products': total_products,
+        'out_of_stock': out_of_stock,
+        'recent_orders': recent_orders,
+        'low_stock_products': low_stock_products,
+        'product_stats': product_stats,
+        'customer_purchases': customer_purchases,
+    }
+    return render(request, 'admin_dashboard.html', context)
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def all_orders(request):
+    # Get products added by this admin
+    my_products = Product.objects.filter(added_by=request.user)
+    # Get orders that contain at least one of these products
+    orders = Order.objects.filter(items__product__in=my_products).distinct().order_by('-created_at')
+    return render(request, 'all_orders.html', {'orders': orders})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def update_order_status(request, order_id):
+    if request.method == 'POST':
+        order = get_object_or_404(Order, id=order_id)
+        new_status = request.POST.get('status')
+        if new_status in dict(Order.STATUS_CHOICES):
+            order.status = new_status
+            order.save()
+    return redirect('all_orders')
     

@@ -1,0 +1,61 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Add Question to {{ paper.title }}{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'view_paper_admin' paper.id %}" style="text-decoration: none; color: var(--text-light);">&larr;
+            Back to Paper</a>
+        <h1 style="margin-top: 1rem;">Add Question</h1>
+        <p style="color: var(--text-light);">Adding to: <strong>{{ paper.title }}</strong></p>
+    </div>
+
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Question Text</label>
+                <input type="text" name="question_text" placeholder="Enter the question here..." required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="form-group">
+                    <label>Option 1</label>
+                    <input type="text" name="option1" required>
+                </div>
+                <div class="form-group">
+                    <label>Option 2</label>
+                    <input type=" text" name="option2" required>
+                </div>
+                <div class="form-group">
+                    <label>Option 3</label>
+                    <input type="text" name="option3" required>
+                </div>
+                <div class="form-group">
+                    <label>Option 4</label>
+                    <input type="text" name="option4" required>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div class="form-group">
+                    <label>Correct Answer (Must match the text of one option exactly)</label>
+                    <input type="text" name="answer" placeholder="e.g. Paris" required>
+                </div>
+                <div class="form-group">
+                    <label>Marks</label>
+                    <input type="number" name="marks" value="5" required>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                <a href="{% url 'view_paper_admin' paper.id %}" class="btn btn-outline">Cancel</a>
+                <button type="submit" class="btn btn-primary" style="padding-left: 3rem; padding-right: 3rem;">Save
+                    Question</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - E-Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #ff6b35;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-light: #e9ecef;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: 260px;
+            background: var(--text-dark);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-orange);
+            margin-bottom: 3rem;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #b2bec3;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary-orange);
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            margin-left: 260px;
+            flex: 1;
+            padding: 2.5rem 3.5rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .welcome-text p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 0.25rem;
+        }
+
+        /* Tables and sections */
+        .section-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .table-card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        td {
+            padding: 1rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.pending {
+            background: #fff4e5;
+            color: #ffab00;
+        }
+
+        .status-badge.delivered {
+            background: #e6fffb;
+            color: var(--success);
+        }
+
+        .stock-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stock-item:last-child {
+            border-bottom: none;
+        }
+
+        .low-stock-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--danger);
+            background: #fff0f0;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .btn-view {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: var(--primary-orange);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-sidebar">
+        <a href="{% url 'home' %}" class="admin-logo">E-SHOP ADMIN</a>
+        <nav class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">📊 Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link">🏠 View Store</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'data_input' %}" class="nav-link">📦 Products</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'all_orders' %}" class="nav-link">🛍️ Orders</a>
+            </li>
+        </nav>
+    </div>
+
+    <div class="main-wrapper">
+        <header class="dashboard-header">
+            <div class="welcome-text">
+                <h1>Business Overview</h1>
+                <p>Track your shop performance and manage inventory.</p>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+                <a href="{% url 'data_input' %}"
+                    style="background: var(--primary-orange); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 12px rgba(255,107,53,0.3); transition: all 0.3s;">📦
+                    Upload Product</a>
+                <div
+                    style="padding: 0.75rem 1rem; background: white; border-radius: 12px; font-weight: 600; border: 1px solid var(--border-light);">
+                    Admin: {{ user.username }}
+                </div>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(255, 107, 53, 0.1); color: var(--primary-orange);">💰
+                </div>
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-value">${{ total_revenue }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(0, 184, 148, 0.1); color: var(--success);">🛒</div>
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-value">{{ total_orders }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(9, 132, 227, 0.1); color: #0984e3;">📦</div>
+                <div class="stat-label">Active Products</div>
+                <div class="stat-value">{{ total_products }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(214, 48, 49, 0.1); color: var(--danger);">⚠️</div>
+                <div class="stat-label">Out of Stock</div>
+                <div class="stat-value">{{ out_of_stock }}</div>
+            </div>
+        </section>
+
+        <div class="section-grid">
+            <div class="table-card">
+                <div class="card-title">
+                    Recent Orders
+                    <a href="{% url 'all_orders' %}" class="btn-view">View All →</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.user.username }}</td>
+                            <td style="font-weight: 700;">${{ order.total_amount }}</td>
+                            <td>{{ order.created_at|date:"M d, Y" }}</td>
+                            <td><span class="status-badge {{ order.status|lower }}">{{ order.status }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: var(--text-muted);">No orders yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <section class="table-card" style="margin-top: 2.5rem;">
+            <div class="card-title">
+                Product Usage Statistics
+                <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">Number of unique users who
+                    bought each product</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unique Users</th>
+                        <th>Total Units Sold</th>
+                        <th>Stock Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stat in product_stats %}
+                    <tr>
+                        <td style="font-weight: 600;">{{ stat.name }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span
+                                    style="background: rgba(9, 132, 227, 0.1); color: #0984e3; padding: 2px 8px; border-radius: 4px; font-weight: 700;">{{
+                                    stat.user_count }}</span>
+                                Users
+                            </div>
+                        </td>
+                        <td>{{ stat.sales_count|default:0 }} Units</td>
+                        <td>
+                            {% if stat.stock <= 0 %} <span class="status-badge danger"
+                                style="background: #fff0f0; color: var(--danger);">Out of Stock</span>
+                                {% elif stat.stock < 10 %} <span class="status-badge warning"
+                                    style="background: #fff4e5; color: #ffab00;">Low Stock ({{ stat.stock }})</span>
+                                    {% else %}
+                                    <span class="status-badge success"
+                                        style="background: #e6fffb; color: var(--success);">In Stock ({{ stat.stock
+                                        }})</span>
+                                    {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--text-muted);">No products found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="table-card" style="margin-top: 2.5rem;">
+            <div class="card-title">
+                Customer Tracking
+                <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">Users who purchased your
+                    products</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Product Purchased</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Date</th>
+                        <th>Order Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in customer_purchases %}
+                    <tr>
+                        <td style="font-weight: 600;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div
+                                    style="width: 30px; height: 30px; background: #ffeaa7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">
+                                    👤</div>
+                                {{ item.order.user.username }}
+                            </div>
+                        </td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td style="font-weight: 700;">${{ item.total_price }}</td>
+                        <td>{{ item.order.created_at|date:"M d, Y" }}</td>
+                        <td><span class="status-badge {{ item.order.status|lower }}">{{ item.order.status }}</span></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: var(--text-muted);">No purchases tracked for
+                            your products yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+
+</html>

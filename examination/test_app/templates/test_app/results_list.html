@@ -1,0 +1,54 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}My Results History{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <h1>Examination History</h1>
+    <p style="color: var(--text-light);">Track your progress and performance over time.</p>
+</div>
+
+{% if results %}
+<div class="card" style="padding: 0; overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="background: #f1f5f9; color: var(--text-light); border-bottom: 1px solid #e2e8f0;">
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Question Paper</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Date</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Score</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Percentage</th>
+                <th style="padding: 1.25rem 2rem; font-weight: 600;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in results %}
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 1.25rem 2rem; font-weight: 600;">{{ res.paper.title|default:"General Quiz" }}</td>
+                <td style="padding: 1.25rem 2rem; color: var(--text-light);">{{ res.date|date:"F j, Y" }}</td>
+                <td style="padding: 1.25rem 2rem; font-weight: 600; color: var(--primary);">
+                    {{ res.marks }} / {{ res.total_marks|default_if_none:"N/A" }}
+                </td>
+                <td style="padding: 1.25rem 2rem;">
+                    {% if res.total_marks %}
+                        {% widthratio res.marks res.total_marks 100 %}%
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td style="padding: 1.25rem 2rem;">
+                    <span
+                        style="background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.85rem; font-weight: 600;">Passed</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 4rem 2rem;">
+    <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 1.5rem;">You haven't taken any examinations
+        yet.</p>
+    <a href="{% url 'student_dashboard' %}" class="btn btn-primary">Take Your First Test</a>
+</div>
+{% endif %}
+{% endblock %}

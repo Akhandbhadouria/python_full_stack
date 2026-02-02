@@ -1,20 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - E-Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .login-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 800;
+      color: #2d3436;
+      text-align: center;
+    }
+
+    form p {
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #ff6b35;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: #ff5722;
+    }
+
+    .links {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    a {
+      color: #636e72;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    a:hover {
+      color: #ff6b35;
+    }
+  </style>
 </head>
+
 <body>
-    <h2>Login</h2>
+  <div class="login-card">
+    <div style="font-size: 1.5rem; font-weight: 800; color: #ff6b35; text-align: center; margin-bottom: 0.5rem;">E-SHOP
+    </div>
+    <h2>User Login</h2>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
 
-<a href="{% url 'register' %}">Create new account</a>
-
+    <div class="links">
+      <a href="{% url 'register' %}">Create new account</a>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 10px 0;">
+      <a href="{% url 'admin_login' %}" style="font-weight: 600; color: #2d3436;">Merchant / Admin Login</a>
+    </div>
+  </div>
 </body>
+
 </html>

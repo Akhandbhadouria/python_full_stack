@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 # 1️⃣ UserCreationForm
@@ -22,10 +23,23 @@ from django.contrib.auth.models import User
 class Register(UserCreationForm):
     class Meta:
         model=User
-        fields=['username','email','password1','password2'] # Controls:
-                                                            # ✔ which fields appear on the HTML form
-                                                            # ✔ which data is accepted
-                                                            # ✔ which data is saved
+        fields=['username','email']
+
+class AdminRegister(UserCreationForm):
+    ADMIN_SECRET = "EShopAdmin2026" # Simple secret key
+    secret_key = forms.CharField(label="Admin Secret Key", widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if self.cleaned_data.get('secret_key') == self.ADMIN_SECRET:
+            user.is_staff = True
+            if commit:
+                user.save()
+        return user
 
 
 # 🧠 Why not write our own form?

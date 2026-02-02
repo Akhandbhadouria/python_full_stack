@@ -1,0 +1,29 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div style="max-width: 450px; margin: 0 auto;">
+    <div class="card">
+        <h2 style="margin-bottom: 2rem; text-align: center;">Success Starts Here</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div style="color: var(--danger); font-size: 0.8rem; margin-top: 0.25rem;">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login to
+                Dashboard</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-light);">
+            Don't have an account? <a href="{% url 'student_signup' %}"
+                style="color: var(--primary); font-weight: 600;">Sign up</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

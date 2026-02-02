@@ -1,0 +1,25 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Examination Result{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <div class="card" style="padding: 4rem 2rem;">
+        <div style="font-size: 5rem; margin-bottom: 1rem;">🏆</div>
+        <h1 style="margin-bottom: 1rem;">Examination Completed!</h1>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">Great job! You have successfully submitted your
+            answers.</p>
+
+        <div style="background: var(--bg); padding: 2.5rem; border-radius: 1rem; margin-bottom: 2.5rem;">
+            <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 0.5rem;">Your Score</p>
+            <h2 style="font-size: 4rem; margin: 0; color: var(--primary);">{{ score }} <span
+                    style="font-size: 1.5rem; color: var(--text-light);">/ {{ total }}</span></h2>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{% url 'student_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+            <a href="{% url 'view_results' %}" class="btn btn-outline">View All History</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p style="color: var(--text-light);">Ready to test your skills today?</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+    <div>
+        <h3 style="margin-bottom: 1.5rem;">Available Question Papers</h3>
+        {% if papers %}
+        <div style="display: grid; gap: 1.5rem;">
+            {% for paper in papers %}
+            <div class="card" style="padding: 2rem;">
+                <h4 style="margin: 0 0 0.5rem; font-size: 1.5rem;">{{ paper.title }}</h4>
+                <p style="color: var(--text-light); margin-bottom: 1.5rem;">{{ paper.description|default:"Performance
+                    evaluation test." }}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span
+                        style="font-size: 0.9rem; color: var(--text-light); background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 2rem;">
+                        {{ paper.questions.count }} Questions
+                    </span>
+                    <a href="{% url 'take_test' paper.id %}" class="btn btn-primary"
+                        style="padding: 0.75rem 2rem;">Start Test</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card" style="text-align: center; padding: 4rem 2rem;">
+            <p style="color: var(--text-light);">No examination papers are available at the moment. Please check back
+                later.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 1.5rem;">My Activity</h3>
+            <a href="{% url 'view_results' %}" class="btn btn-outline"
+                style="width: 100%; text-align: center; margin-bottom: 1rem;">View All Results</a>
+        </div>
+
+        <div class="card" style="background: var(--primary); color: white;">
+            <h4>Need Help?</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.9;">Contact your administrator if you are
+                unable to see a scheduled test.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

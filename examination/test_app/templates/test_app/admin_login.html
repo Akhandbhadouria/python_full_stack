@@ -1,0 +1,30 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div style="max-width: 450px; margin: 0 auto;">
+    <div class="card" style="border-top: 5px solid var(--primary);">
+        <h2 style="margin-bottom: 2rem; text-align: center;">Admin Personnel Only</h2>
+        {% if error %}
+        <div
+            style="background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; text-align: center;">
+            {{ error }}
+        </div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Admin Login</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-light); font-size: 0.9rem;">
+            This portal is for administrators to manage questions and view student progress.
+        </p>
+    </div>
+</div>
+{% endblock %}

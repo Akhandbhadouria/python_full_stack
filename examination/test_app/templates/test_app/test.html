@@ -1,0 +1,66 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}Examination: {{ paper.title }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 style="margin: 0;">{{ paper.title }}</h1>
+        <p style="color: var(--text-light); margin-top: 0.5rem;">Please answer all questions carefully.</p>
+    </div>
+    <div style="background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 600;">
+        Live Session
+    </div>
+</div>
+
+{% if error %}
+<div class="card" style="text-align: center;">
+    <p style="color: var(--danger); font-size: 1.2rem;">{{ error }}</p>
+    <a href="{% url 'student_dashboard' %}" class="btn btn-primary" style="margin-top: 1rem;">Back to Dashboard</a>
+</div>
+{% elif questions|length == 0 %}
+<div class="card" style="text-align: center;">
+    <p style="color: var(--danger); font-size: 1.2rem;">No questions available for this paper.</p>
+    <a href="{% url 'student_dashboard' %}" class="btn btn-primary" style="margin-top: 1rem;">Back to Dashboard</a>
+</div>
+{% else %}
+<form action="{% url 'submit_test' paper.id %}" method="POST">
+    {% csrf_token %}
+    {% for q in questions %}
+    <div class="card" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1.5rem;">{{ forloop.counter }}. {{ q.question_text }} <span
+                style="font-size: 0.9rem; color: var(--text-light); float: right;">({{ q.marks }} Marks)</span></h3>
+
+        {% if not q.option1 or not q.option2 or not q.option3 or not q.option4 %}
+        <div style="color: red; font-weight: bold; margin-bottom: 1rem;">This question is missing options. Please contact the administrator.</div>
+        {% else %}
+        <div class="form-group" style="display: flex; gap: 1rem; flex-direction: column;">
+            <label
+                style="display: flex; align-items: center; gap: 1rem; font-weight: 400; background: #f8fafc; padding: 1rem; border-radius: 0.5rem; cursor: pointer;">
+                <input type="radio" name="question_{{ q.id }}" value="{{ q.option1 }}" style="width: auto;" required> {{ q.option1 }}
+            </label>
+            <label
+                style="display: flex; align-items: center; gap: 1rem; font-weight: 400; background: #f8fafc; padding: 1rem; border-radius: 0.5rem; cursor: pointer;">
+                <input type="radio" name="question_{{ q.id }}" value="{{ q.option2 }}" style="width: auto;"> {{ q.option2 }}
+            </label>
+            <label
+                style="display: flex; align-items: center; gap: 1rem; font-weight: 400; background: #f8fafc; padding: 1rem; border-radius: 0.5rem; cursor: pointer;">
+                <input type="radio" name="question_{{ q.id }}" value="{{ q.option3 }}" style="width: auto;"> {{ q.option3 }}
+            </label>
+            <label
+                style="display: flex; align-items: center; gap: 1rem; font-weight: 400; background: #f8fafc; padding: 1rem; border-radius: 0.5rem; cursor: pointer;">
+                <input type="radio" name="question_{{ q.id }}" value="{{ q.option4 }}" style="width: auto;"> {{ q.option4 }}
+            </label>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <div style="text-align: center; margin-top: 3rem; margin-bottom: 5rem;">
+        <p style="color: var(--text-light); margin-bottom: 1rem;">Please review all your answers before submitting.</p>
+        <button type="submit" class="btn btn-primary" style="padding: 1rem 4rem; font-size: 1.2rem;">Submit
+            Examination</button>
+    </div>
+</form>
+{% endif %}
+{% endblock %}
