@@ -4,89 +4,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert Student Data</title>
+    <title>Add Product - Modern Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4f46e5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
+            background: var(--bg);
+            color: var(--text);
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
+            padding: 0;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            width: 400px;
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         form p {
+            margin-bottom: 1.5rem;
             display: flex;
             flex-direction: column;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="file"] {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            margin-top: 5px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
+        form label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            background: #ff7e5f;
-            background: linear-gradient(to right, #feb47b, #ff7e5f);
-            color: white;
+        form input,
+        form textarea,
+        form select {
+            padding: 0.8rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            background: #fdfdfd;
+            color: #111827;
             font-size: 1rem;
-            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
-            margin-top: 1rem;
+            transition: all 0.2s;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
         }
 
-        button:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
+        .btn-submit:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
         }
 
-        label {
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-muted);
+            text-decoration: none;
             font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
-        <h1>Add Student</h1>
+        <h1>Add New Product</h1>
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Register Student</button>
+            <button type="submit" class="btn-submit">List Product</button>
         </form>
+        <a href="{% url 'home' %}" class="back-link">← Back to Dashboard</a>
     </div>
 </body>
 
