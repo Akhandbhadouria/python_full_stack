@@ -244,30 +244,13 @@
                     </p>
                     <div style="margin-top: 0.5rem;">
                         <span class="customer-badge">👤 {{ order.user.username }}</span>
-                        <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">Email: {{
-                            order.user.email }}</span>
+                        <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">Email: {{ order.user.email|default:"N/A" }}</span>
                     </div>
                 </div>
                 <div class="status-badge status-{{ order.status|lower }}">
                     {{ order.status }}
                 </div>
-                <form action="{% url 'update_order_status' order.id %}" method="post"
-                    style="margin-left: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                    {% csrf_token %}
-                    <select name="status"
-                        style="padding: 0.4rem; border-radius: 8px; border: 1px solid var(--border-light); font-size: 0.85rem;">
-                        <option value="Pending" {% if order.status=='Pending' %}selected{% endif %}>Pending</option>
-                        <option value="Processing" {% if order.status=='Processing' %}selected{% endif %}>Processing
-                        </option>
-                        <option value="Shipped" {% if order.status=='Shipped' %}selected{% endif %}>Shipped</option>
-                        <option value="Delivered" {% if order.status=='Delivered' %}selected{% endif %}>Delivered
-                        </option>
-                        <option value="Cancelled" {% if order.status=='Cancelled' %}selected{% endif %}>Cancelled
-                        </option>
-                    </select>
-                    <button type="submit"
-                        style="padding: 0.4rem 0.8rem; background: var(--text-dark); color: white; border: none; border-radius: 8px; font-size: 0.75rem; cursor: pointer;">Update</button>
-                </form>
+            
             </div>
 
             <div class="order-body">

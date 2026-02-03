@@ -5,110 +5,218 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title|default:"Register" }} - E-Shop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #ff6b35;
+      --primary-hover: #ff8c61;
+      --dark: #1e272e;
+      --light: #f5f6fa;
+      --gray: #808e9b;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f8f9fa;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      color: var(--dark);
+    }
+
+    .register-container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      padding: 20px;
     }
 
     .register-card {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
       width: 100%;
-      max-width: 400px;
+      box-sizing: border-box;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     h2 {
-      margin-bottom: 1.5rem;
-      font-weight: 800;
-      color: #2d3436;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+      color: var(--dark);
+      font-size: 2rem;
+      text-align: center;
     }
 
+    .subtitle {
+      text-align: center;
+      color: var(--gray);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    /* Form styling for {{ form.as_p }} */
     form p {
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      position: relative;
     }
 
-    input {
+    form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    input,
+    select,
+    textarea {
       width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #e9ecef;
-      border-radius: 10px;
-      margin-top: 0.5rem;
+      padding: 0.8rem 1rem;
+      border: 2px solid #eef2f7;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      background: #fdfdfd;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+      background: white;
     }
 
     button {
       width: 100%;
-      padding: 0.75rem;
-      background: #ff6b35;
+      padding: 1rem;
+      background: var(--primary);
       color: white;
       border: none;
-      border-radius: 10px;
-      font-weight: 700;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
       cursor: pointer;
       margin-top: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 20px rgba(255, 107, 53, 0.2);
     }
 
     button:hover {
-      background: #ff5722;
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .links {
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.8rem;
       text-align: center;
     }
 
     a {
-      color: #636e72;
+      color: var(--gray);
       text-decoration: none;
       font-size: 0.9rem;
+      transition: color 0.3s;
     }
 
     a:hover {
-      color: #ff6b35;
+      color: var(--primary);
+    }
+
+    .divider {
+      height: 1px;
+      background: #eee;
+      margin: 1rem 0;
+      width: 100%;
     }
 
     .error {
-      color: #d63031;
-      background: #fff0f0;
-      padding: 0.75rem;
-      border-radius: 10px;
-      margin-bottom: 1rem;
+      color: #e74c3c;
+      background: #fdeaea;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
       font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-left: 4px solid #e74c3c;
+    }
+
+    .helptext {
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    .helptext ul {
+      margin: 0;
+      padding-left: 1.2rem;
     }
   </style>
 </head>
 
 <body>
-  <div class="register-card">
-    <h2>{{ title|default:"Register" }}</h2>
+  <div class="register-container">
+    <div class="register-card">
+      <h2>{{ title|default:"Create Account" }}</h2>
+      <p class="subtitle">Join our community today</p>
 
-    {% if error %}
-    <div class="error">⚠️ {{ error }}</div>
-    {% endif %}
-
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">{{ title|default:"Register" }}</button>
-    </form>
-
-    <div class="links">
-      <a href="{% url 'login' %}">Already have an account? Login</a>
-      {% if not title %}
-      <hr style="border: none; border-top: 1px solid #eee; margin: 10px 0;">
-      <a href="{% url 'admin_register' %}" style="font-weight: 600; color: #2d3436;">Are you an Admin? Register here</a>
+      {% if error %}
+      <div class="error">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        {{ error }}
+      </div>
       {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{{ title|default:"Sign Up" }}</button>
+      </form>
+
+      <div class="links">
+        <a href="{% url 'login' %}">Already have an account? <b>Log In</b></a>
+        {% if not title %}
+        <div class="divider"></div>
+        <a href="{% url 'admin_register' %}" style="font-weight: 500;">Are you an Admin? Register here</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </body>

@@ -687,9 +687,9 @@
             <a href="{% url 'all_orders' %}" class="icon-btn" title="Track All Orders"
                 style="display: flex; align-items: center; gap: 5px; text-decoration: none; color: inherit; font-size: 0.9rem; font-weight: 600;">🛍️
                 Tracking</a>
+            <a href="{% url 'data_input' %}" class="icon-btn" title="Add Product">➕</a>
             {% endif %}
             <a href="{% url 'order_list' %}" class="icon-btn" title="My Orders">🛍️</a>
-            <a href="{% url 'data_input' %}" class="icon-btn" title="Add Product">➕</a>
             <a href="{% url 'cart_view' %}" class="icon-btn" title="My Cart">
                 🛒
                 {% if cart_count > 0 %}

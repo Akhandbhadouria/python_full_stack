@@ -349,23 +349,19 @@
                         <td style="font-weight: 600;">{{ stat.name }}</td>
                         <td>
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span
-                                    style="background: rgba(9, 132, 227, 0.1); color: #0984e3; padding: 2px 8px; border-radius: 4px; font-weight: 700;">{{
-                                    stat.user_count }}</span>
+                                <span style="background: rgba(9, 132, 227, 0.1); color: #0984e3; padding: 2px 8px; border-radius: 4px; font-weight: 700;">{{ stat.user_count|default:"0" }}</span>
                                 Users
                             </div>
                         </td>
-                        <td>{{ stat.sales_count|default:0 }} Units</td>
+                        <td>{{ stat.sales_count|default:"0" }} Units</td>
                         <td>
-                            {% if stat.stock <= 0 %} <span class="status-badge danger"
-                                style="background: #fff0f0; color: var(--danger);">Out of Stock</span>
-                                {% elif stat.stock < 10 %} <span class="status-badge warning"
-                                    style="background: #fff4e5; color: #ffab00;">Low Stock ({{ stat.stock }})</span>
-                                    {% else %}
-                                    <span class="status-badge success"
-                                        style="background: #e6fffb; color: var(--success);">In Stock ({{ stat.stock
-                                        }})</span>
-                                    {% endif %}
+                            {% if stat.stock <= 0 %}
+                                <span class="status-badge danger" style="background: #fff0f0; color: var(--danger);">Out of Stock</span>
+                            {% elif stat.stock < 10 %}
+                                <span class="status-badge warning" style="background: #fff4e5; color: #ffab00;">Low Stock ({{ stat.stock }})</span>
+                            {% else %}
+                                <span class="status-badge success" style="background: #e6fffb; color: var(--success);">In Stock ({{ stat.stock }})</span>
+                            {% endif %}
                         </td>
                     </tr>
                     {% empty %}

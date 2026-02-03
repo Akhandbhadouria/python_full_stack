@@ -26,19 +26,15 @@ class Register(UserCreationForm):
         fields=['username','email']
 
 class AdminRegister(UserCreationForm):
-    ADMIN_SECRET = "EShopAdmin2026" # Simple secret key
-    secret_key = forms.CharField(label="Admin Secret Key", widget=forms.PasswordInput)
-
     class Meta:
         model = User
         fields = ['username', 'email']
     
     def save(self, commit=True):
         user = super().save(commit=False)
-        if self.cleaned_data.get('secret_key') == self.ADMIN_SECRET:
-            user.is_staff = True
-            if commit:
-                user.save()
+        user.is_staff = True
+        if commit:
+            user.save()
         return user
 
 
