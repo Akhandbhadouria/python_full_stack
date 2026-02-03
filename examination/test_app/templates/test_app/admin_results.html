@@ -14,7 +14,7 @@
 <div class="card" style="padding: 0; overflow: hidden;">
     <table style="width: 100%; border-collapse: collapse; text-align: left;">
         <thead>
-            <tr style="background: #f1f5f9; color: var(--text-light); border-bottom: 1px solid #e2e8f0;">
+            <tr style="background: var(--ivory); color: var(--text); border-bottom: 2px solid var(--accent);">
                 <th style="padding: 1.25rem 2rem; font-weight: 600;">Student Name</th>
                 <th style="padding: 1.25rem 2rem; font-weight: 600;">Question Paper</th>
                 <th style="padding: 1.25rem 2rem; font-weight: 600;">Marks Obtained</th>
@@ -26,8 +26,7 @@
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 1.25rem 2rem; font-weight: 600;">{{ res.student.username }}</td>
                 <td style="padding: 1.25rem 2rem;">{{ res.paper.title|default:"Deleted Paper" }}</td>
-                <td style="padding: 1.25rem 2rem; font-weight: 600; color: var(--primary);">{{ res.marks }} / {{
-                    res.total_marks }}</td>
+                <td style="padding: 1.25rem 2rem; font-weight: 600; color: var(--primary);">{{ res.marks }} / {{ res.total_marks }}</td>
                 <td style="padding: 1.25rem 2rem; color: var(--text-light);">{{ res.date|date:"F j, Y, g:i a" }}</td>
             </tr>
             {% endfor %}

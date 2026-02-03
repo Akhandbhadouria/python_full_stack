@@ -8,14 +8,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --accent: #10b981;
-            --danger: #ef4444;
+            --primary: #8C6E63;
+            --primary-hover: #6D4C41;
+            --bg: #FFF2DF;
+            --card-bg: #FFE0B2;
+            --text: #3E2522;
+            --text-light: #8C6E63;
+            --accent: #D3A376;
+            --danger: #C62828;
+            --dark-brown: #3E2522;
+            --taupe: #8C6E63;
+            --warm-tan: #D3A376;
+            --light-peach: #FFE0B2;
+            --ivory: #FFF2DF;
         }
 
         body {
@@ -28,12 +33,13 @@
         }
 
         nav {
-            background: var(--card-bg);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--ivory) 100%);
+            box-shadow: 0 4px 12px rgba(62, 37, 34, 0.1);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 2px solid var(--accent);
         }
 
         .logo {
@@ -62,10 +68,17 @@
         }
 
         .card {
-            background: var(--card-bg);
+            background: linear-gradient(145deg, var(--card-bg) 0%, var(--ivory) 100%);
             border-radius: 1rem;
             padding: 2.5rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            box-shadow: 0 10px 25px rgba(62, 37, 34, 0.15), 0 4px 10px rgba(140, 110, 99, 0.1);
+            border: 1px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(62, 37, 34, 0.2), 0 6px 15px rgba(140, 110, 99, 0.15);
         }
 
         .btn {
@@ -80,24 +93,28 @@
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
             color: white;
+            box-shadow: 0 4px 12px rgba(140, 110, 99, 0.3);
         }
 
         .btn-primary:hover {
-            background: var(--primary-hover);
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--dark-brown) 100%);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(140, 110, 99, 0.4);
         }
 
         .btn-outline {
             border: 2px solid var(--primary);
             color: var(--primary);
             background: transparent;
+            box-shadow: 0 2px 8px rgba(140, 110, 99, 0.2);
         }
 
         .btn-outline:hover {
             background: var(--primary);
             color: white;
+            box-shadow: 0 4px 12px rgba(140, 110, 99, 0.3);
         }
 
         .form-group {
@@ -113,9 +130,18 @@
         .form-group input {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #e2e8f0;
+            border: 2px solid var(--accent);
             border-radius: 0.5rem;
             font-family: inherit;
+            background: var(--ivory);
+            color: var(--text);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(140, 110, 99, 0.1);
         }
 
         .footer {
@@ -156,6 +182,7 @@
             {% else %}
             <a href="{% url 'student_dashboard' %}">Dashboard</a>
             <a href="{% url 'view_results' %}">My Results</a>
+            <a href="{% url 'student_profile' %}">Profile</a>
             <a href="{% url 'logout' %}" style="color: var(--danger);">Logout</a>
             {% endif %}
             {% else %}

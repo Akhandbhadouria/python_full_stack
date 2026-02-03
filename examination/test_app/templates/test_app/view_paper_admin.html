@@ -24,9 +24,9 @@
     {% if questions %}
     {% for q in questions %}
     <div
-        style="padding: 1.5rem; border: 1px solid #f1f5f9; border-radius: 0.75rem; margin-bottom: 1.5rem; position: relative;">
+        style="padding: 1.5rem; border: 1px solid var(--accent); border-radius: 0.75rem; margin-bottom: 1.5rem; position: relative; background: var(--ivory);">
         <div
-            style="position: absolute; right: 1.5rem; top: 1.5rem; background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600;">
+            style="position: absolute; right: 1.5rem; top: 1.5rem; background: var(--card-bg); padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--accent); color: var(--text);">
             {{ q.marks }} Marks
         </div>
         <h4 style="margin: 0 0 1rem; padding-right: 5rem;">{{ forloop.counter }}. {{ q.question_text }}</h4>

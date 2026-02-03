@@ -12,7 +12,7 @@
 <div class="card" style="padding: 0; overflow: hidden;">
     <table style="width: 100%; border-collapse: collapse; text-align: left;">
         <thead>
-            <tr style="background: #f1f5f9; color: var(--text-light); border-bottom: 1px solid #e2e8f0;">
+            <tr style="background: var(--ivory); color: var(--text); border-bottom: 2px solid var(--accent);">
                 <th style="padding: 1.25rem 2rem; font-weight: 600;">Question Paper</th>
                 <th style="padding: 1.25rem 2rem; font-weight: 600;">Date</th>
                 <th style="padding: 1.25rem 2rem; font-weight: 600;">Score</th>
@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {% for res in results %}
-            <tr style="border-bottom: 1px solid #e2e8f0;">
+            <tr style="border-bottom: 1px solid var(--accent);">
                 <td style="padding: 1.25rem 2rem; font-weight: 600;">{{ res.paper.title|default:"General Quiz" }}</td>
                 <td style="padding: 1.25rem 2rem; color: var(--text-light);">{{ res.date|date:"F j, Y" }}</td>
                 <td style="padding: 1.25rem 2rem; font-weight: 600; color: var(--primary);">
@@ -30,14 +30,14 @@
                 </td>
                 <td style="padding: 1.25rem 2rem;">
                     {% if res.total_marks %}
-                        {% widthratio res.marks res.total_marks 100 %}%
+                    {% widthratio res.marks res.total_marks 100 %}%
                     {% else %}
-                        N/A
+                    N/A
                     {% endif %}
                 </td>
                 <td style="padding: 1.25rem 2rem;">
                     <span
-                        style="background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.85rem; font-weight: 600;">Passed</span>
+                        style="background: var(--ivory); color: var(--text); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--accent);">Passed</span>
                 </td>
             </tr>
             {% endfor %}

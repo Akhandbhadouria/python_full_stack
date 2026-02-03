@@ -45,6 +45,14 @@ def student_dashboard(request):
 @login_required
 def take_test(request, paper_id):
     paper = get_object_or_404(QuestionPaper, id=paper_id)
+    
+    # Check if student already took this test
+    if Result.objects.filter(student=request.user, paper=paper).exists():
+        return render(request, 'test_app/test.html', {
+            'paper': paper,
+            'error': 'You have already taken this test. You cannot take it again.'
+        })
+
     questions = paper.questions.all()
     if not questions:
         return render(request, 'test_app/test.html', {'error': 'No questions available in this paper.'})
@@ -54,6 +62,11 @@ def take_test(request, paper_id):
 def submit_test(request, paper_id):
     if request.method == 'POST':
         paper = get_object_or_404(QuestionPaper, id=paper_id)
+        
+        # Check if already submitted
+        if Result.objects.filter(student=request.user, paper=paper).exists():
+            return redirect('view_results')
+
         questions = paper.questions.all()
         score = 0
         total = 0
@@ -117,6 +130,14 @@ def create_paper(request):
     return render(request, 'test_app/create_paper.html')
 
 @login_required
+def delete_paper(request, paper_id):
+    if not request.user.is_staff:
+        return redirect('home')
+    paper = get_object_or_404(QuestionPaper, id=paper_id)
+    paper.delete()
+    return redirect('admin_dashboard')
+
+@login_required
 def view_paper_admin(request, paper_id):
     if not request.user.is_staff:
         return redirect('home')
@@ -160,3 +181,26 @@ def admin_view_results(request):
         return redirect('home')
     results = Result.objects.all().order_by('-date')
     return render(request, 'test_app/admin_results.html', {'results': results})
+
+@login_required
+def student_profile(request):
+    # Get student's results
+    results = Result.objects.filter(student=request.user).order_by('-date')
+    
+    # Calculate statistics
+    total_tests = results.count()
+    total_marks_obtained = sum(r.marks for r in results)
+    total_marks_possible = sum(r.total_marks for r in results)
+    
+    average_percentage = 0
+    if total_marks_possible > 0:
+        average_percentage = round((total_marks_obtained / total_marks_possible) * 100, 2)
+    
+    context = {
+        'results': results[:5],  # Show last 5 results
+        'total_tests': total_tests,
+        'average_percentage': average_percentage,
+        'total_marks_obtained': total_marks_obtained,
+        'total_marks_possible': total_marks_possible,
+    }
+    return render(request, 'test_app/profile.html', context)

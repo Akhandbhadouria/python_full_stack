@@ -1,0 +1,188 @@
+{% extends 'test_app/base.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(62, 37, 34, 0.2);
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: var(--ivory);
+        color: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        margin: 0 auto 1rem;
+        font-weight: 600;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        border: 2px solid var(--accent);
+    }
+
+    .profile-name {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-email {
+        opacity: 0.9;
+        font-size: 1rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: linear-gradient(145deg, var(--card-bg) 0%, var(--ivory) 100%);
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 10px rgba(62, 37, 34, 0.1);
+        text-align: center;
+        transition: transform 0.3s;
+        border: 1px solid var(--accent);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(62, 37, 34, 0.15);
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+
+    .recent-results {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 10px rgba(62, 37, 34, 0.1);
+        border: 1px solid var(--accent);
+    }
+
+    .result-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--accent);
+        transition: background 0.2s;
+    }
+
+    .result-item:last-child {
+        border-bottom: none;
+    }
+
+    .result-item:hover {
+        background: var(--ivory);
+    }
+
+    .result-paper {
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .result-date {
+        color: var(--text-light);
+        font-size: 0.85rem;
+    }
+
+    .result-score {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .score-good {
+        color: var(--accent);
+    }
+
+    .score-average {
+        color: #f59e0b;
+    }
+
+    .score-poor {
+        color: var(--danger);
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-light);
+    }
+</style>
+
+<div class="profile-header">
+    <div class="profile-avatar">{{ user.username|slice:":1"|upper }}</div>
+    <div class="profile-name">{{ user.username }}</div>
+    <div class="profile-email">{{ user.email|default:"No email provided" }}</div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_tests }}</div>
+        <div class="stat-label">Tests Taken</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ average_percentage }}%</div>
+        <div class="stat-label">Average Score</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_marks_obtained }}</div>
+        <div class="stat-label">Total Marks Obtained</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_marks_possible }}</div>
+        <div class="stat-label">Total Marks Possible</div>
+    </div>
+</div>
+
+<div class="recent-results">
+    <h2 style="margin-bottom: 1.5rem;">Recent Test Results</h2>
+    {% if results %}
+    {% for result in results %}
+    <div class="result-item">
+        <div>
+            <div class="result-paper">{{ result.paper.title }}</div>
+            <div class="result-date">{{ result.date|date:"F d, Y - g:i A" }}</div>
+        </div>
+        <div
+            class="result-score {% if result.marks >= result.total_marks|floatformat:0|add:'-10' %}score-good{% elif result.marks >= result.total_marks|floatformat:0|add:'-20' %}score-average{% else %}score-poor{% endif %}">
+            {{ result.marks }}/{{ result.total_marks }}
+        </div>
+    </div>
+    {% endfor %}
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="{% url 'view_results' %}" class="btn btn-outline">View All Results</a>
+    </div>
+    {% else %}
+    <div class="no-results">
+        <p style="font-size: 1.2rem; margin-bottom: 1rem;">📝 No test results yet</p>
+        <p>Take your first test to see your results here!</p>
+        <a href="{% url 'student_dashboard' %}" class="btn btn-primary" style="margin-top: 1rem;">Browse Tests</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

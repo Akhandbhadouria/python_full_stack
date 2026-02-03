@@ -16,11 +16,10 @@
             {% for paper in papers %}
             <div class="card" style="padding: 2rem;">
                 <h4 style="margin: 0 0 0.5rem; font-size: 1.5rem;">{{ paper.title }}</h4>
-                <p style="color: var(--text-light); margin-bottom: 1.5rem;">{{ paper.description|default:"Performance
-                    evaluation test." }}</p>
+
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span
-                        style="font-size: 0.9rem; color: var(--text-light); background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 2rem;">
+                        style="font-size: 0.9rem; color: var(--text); background: var(--ivory); padding: 0.25rem 0.75rem; border-radius: 2rem; border: 1px solid var(--accent);">
                         {{ paper.questions.count }} Questions
                     </span>
                     <a href="{% url 'take_test' paper.id %}" class="btn btn-primary"
@@ -37,18 +36,6 @@
         {% endif %}
     </div>
 
-    <div>
-        <div class="card" style="margin-bottom: 1.5rem;">
-            <h3 style="margin-bottom: 1.5rem;">My Activity</h3>
-            <a href="{% url 'view_results' %}" class="btn btn-outline"
-                style="width: 100%; text-align: center; margin-bottom: 1rem;">View All Results</a>
-        </div>
 
-        <div class="card" style="background: var(--primary); color: white;">
-            <h4>Need Help?</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.9;">Contact your administrator if you are
-                unable to see a scheduled test.</p>
-        </div>
-    </div>
 </div>
 {% endblock %}

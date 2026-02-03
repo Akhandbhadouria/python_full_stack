@@ -9,6 +9,7 @@ urlpatterns = [
     path('test/<int:paper_id>/', views.take_test, name='take_test'),
     path('test/<int:paper_id>/submit/', views.submit_test, name='submit_test'),
     path('results/', views.view_results, name='view_results'),
+    path('profile/', views.student_profile, name='student_profile'),
     path('logout/', views.logout_view, name='logout'),
     
     path('admin_portal/login/', views.admin_login, name='admin_login'),
@@ -16,5 +17,6 @@ urlpatterns = [
     path('admin_portal/paper/create/', views.create_paper, name='create_paper'),
     path('admin_portal/paper/<int:paper_id>/', views.view_paper_admin, name='view_paper_admin'),
     path('admin_portal/paper/<int:paper_id>/add_question/', views.add_question, name='add_question'),
+    path('admin_portal/paper/<int:paper_id>/delete/', views.delete_paper, name='delete_paper'),
     path('admin_portal/results/', views.admin_view_results, name='admin_view_results'),
 ]
